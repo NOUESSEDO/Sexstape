@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Espace Soutien & Sécurité | Tu n'es pas seul(e)</title>
+    <!-- Tailwind CSS pour le style -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Phosphor Icons pour les icônes légères -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <!-- Police Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .page-section { display: none; animation: fadeIn 0.3s ease-in-out; }
+        .page-section.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        /* Style spécifique pour les accordéons */
+        .accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; }
+        .accordion-open .accordion-content { max-height: 500px; }
+        .accordion-icon { transition: transform 0.3s; }
+        .accordion-open .accordion-icon { transform: rotate(180deg); }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col">
+
+    <!-- BARRE DE NAVIGATION (MOBILE & DESKTOP) -->
+    <nav class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="max-w-4xl mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center gap-2 cursor-pointer" onclick="navigateTo('home')">
+                <i class="ph-fill ph-shield-check text-emerald-600 text-2xl"></i>
+                <span class="font-bold text-lg text-slate-700 tracking-tight">Espace<span class="text-emerald-600">Soutien</span></span>
+            </div>
+            
+            <!-- Menu Button (Mobile) -->
+            <button onclick="toggleMenu()" class="md:hidden text-slate-600 focus:outline-none p-2">
+                <i class="ph ph-list text-2xl"></i>
+            </button>
+
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex gap-4 text-sm font-medium text-slate-600">
+                <button onclick="navigateTo('home')" class="hover:text-emerald-600">Accueil</button>
+                <button onclick="navigateTo('urgence')" class="text-red-500 font-bold hover:text-red-600">Urgence</button>
+                <button onclick="navigateTo('droits')" class="hover:text-emerald-600">Mes Droits</button>
+                <button onclick="navigateTo('soutien')" class="hover:text-emerald-600">Soutien</button>
+            </div>
+        </div>
+
+        <!-- Mobile Drawer Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t absolute w-full shadow-lg">
+            <div class="flex flex-col p-4 gap-3 text-sm font-medium">
+                <button onclick="navigateTo('home'); toggleMenu()" class="text-left py-2 border-b">🏠 Accueil</button>
+                <button onclick="navigateTo('urgence'); toggleMenu()" class="text-left py-2 border-b text-red-600 font-bold">🚨 Que faire maintenant ?</button>
+                <button onclick="navigateTo('comprendre'); toggleMenu()" class="text-left py-2 border-b">💡 Comprendre le chantage</button>
+                <button onclick="navigateTo('droits'); toggleMenu()" class="text-left py-2 border-b">⚖ Tes droits & la loi</button>
+                <button onclick="navigateTo('suppression'); toggleMenu()" class="text-left py-2 border-b">🗑 Supprimer la vidéo</button>
+                <button onclick="navigateTo('soutien'); toggleMenu()" class="text-left py-2 border-b">❤ Soutien moral</button>
+                <button onclick="navigateTo('parler'); toggleMenu()" class="text-left py-2 border-b">🗣 Parler à quelqu'un</button>
+                <button onclick="navigateTo('prevention'); toggleMenu()" class="text-left py-2 border-b">🛡 Prévention</button>
+                <button onclick="navigateTo('ressources'); toggleMenu()" class="text-left py-2 border-b">📚 Ressources</button>
+                <button onclick="navigateTo('apropos'); toggleMenu()" class="text-left py-2 text-slate-400">ℹ À propos</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- BOUTON SORTIE RAPIDE (Panique) -->
+    <a href="https://stopncii.org" class="fixed bottom-4 right-4 z-50 bg-red-600 text-white px-4 py-3 rounded-full shadow-lg flex items-center gap-2 font-bold hover:bg-red-700 transition transform hover:scale-105" title="Quitter le site immédiatement">
+        <i class="ph-bold ph-door-open"></i> Sortie Rapide
+    </a>
+
+    <!-- CONTENU PRINCIPAL -->
+    <main class="flex-grow max-w-3xl mx-auto w-full px-4 py-8">
+
+        <!-- 1. ACCUEIL -->
+        <section id="home" class="page-section active">
+            <div class="text-center py-10">
+                <div class="inline-block p-4 rounded-full bg-emerald-100 mb-6">
+                    <i class="ph-duotone ph-hand-heart text-5xl text-emerald-600"></i>
+                </div>
+                <h1 class="text-3xl md:text-4xl font-bold text-slate-800 mb-4">Tu n'es pas seul(e).</h1>
+                <p class="text-lg text-slate-600 mb-8 max-w-lg mx-auto">
+                    Si tu es victime de menaces ou de diffusion d'images intimes, ce n'est pas ta faute. On peut t'aider à reprendre le contrôle.
+                </p>
+                
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <button onclick="navigateTo('urgence')" class="bg-red-500 text-white px-8 py-4 rounded-xl font-bold shadow-lg hover:bg-red-600 transition flex items-center justify-center gap-2">
+                        <i class="ph-bold ph-warning-circle"></i> J'ai besoin d'aide maintenant
+                    </button>
+                    <button onclick="navigateTo('comprendre')" class="bg-white text-slate-700 border border-slate-300 px-8 py-4 rounded-xl font-semibold hover:bg-slate-50 transition flex items-center justify-center gap-2">
+                        <i class="ph-bold ph-question"></i> Comprendre la situation
+                    </button>
+                </div>
+            </div>
+
+            <div class="bg-blue-50 border-l-4 border-blue-500 p-6 rounded-r-lg mt-8">
+                <h3 class="font-bold text-blue-800 flex items-center gap-2">
+                    <i class="ph-fill ph-info"></i> Le savais-tu ?
+                </h3>
+                <p class="text-blue-700 mt-2">Plus de 90% des contenus intimes sont supprimés rapidement après un signalement correct. Il y a une issue.</p>
+            </div>
+
+            <div class="mt-12 text-center text-sm text-slate-400">
+                <p>🔒 Ce site est anonyme, sécurisé et ne stocke aucune donnée.</p>
+            </div>
+        </section>
+
+        <!-- 2. URGENCE -->
+        <section id="urgence" class="page-section">
+            <h2 class="text-2xl font-bold text-red-600 mb-6 flex items-center gap-2">
+                <i class="ph-fill ph-siren"></i> Que faire maintenant ?
+            </h2>
+            
+            <div class="space-y-6">
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
+                    <h3 class="font-bold text-lg mb-2">1. Rester calme & Ne pas payer</h3>
+                    <p class="text-slate-600">Si on te demande de l'argent (chantage), <strong>ne paie jamais</strong>. Payer ne garantit pas la suppression et encourage le chantage. Coupe la communication sans bloquer (pour garder les preuves).</p>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
+                    <h3 class="font-bold text-lg mb-2">2. Sauvegarder les preuves</h3>
+                    <p class="text-slate-600 mb-4">Avant que les messages ne soient supprimés, fais des captures d'écran de tout :</p>
+                    <ul class="list-disc ml-5 text-slate-600 space-y-1">
+                        <li>Le profil du maître-chanteur (ID, pseudo).</li>
+                        <li>Les messages de menaces.</li>
+                        <li>Les liens où la vidéo a été postée.</li>
+                    </ul>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
+                    <h3 class="font-bold text-lg mb-4">3. Signaler immédiatement</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <a href="https://fr-fr.facebook.com/help/contact/567360146613371" target="_blank" class="bg-blue-600 text-white p-3 rounded-lg text-center font-medium hover:bg-blue-700">Facebook</a>
+                        <a href="https://help.instagram.com/contact/383679321740945" target="_blank" class="bg-pink-600 text-white p-3 rounded-lg text-center font-medium hover:bg-pink-700">Instagram</a>
+                        <a href="https://www.tiktok.com/legal/report/content" target="_blank" class="bg-black text-white p-3 rounded-lg text-center font-medium hover:bg-slate-800">TikTok</a>
+                        <a href="https://support.google.com/websearch/answer/6302812" target="_blank" class="bg-slate-200 text-slate-800 p-3 rounded-lg text-center font-medium hover:bg-slate-300">Google (Recherche)</a>
+                    </div>
+                </div>
+            </div>
+            
+            <button onclick="navigateTo('suppression')" class="w-full mt-6 bg-emerald-600 text-white py-3 rounded-lg font-semibold hover:bg-emerald-700">
+                Voir le guide complet de suppression
+            </button>
+        </section>
+
+        <!-- 3. COMPRENDRE -->
+        <section id="comprendre" class="page-section">
+            <h2 class="text-2xl font-bold text-slate-800 mb-6">Comprendre le chantage</h2>
+            
+            <div class="bg-indigo-50 p-5 rounded-lg mb-6">
+                <h3 class="font-bold text-indigo-900 text-lg">C'est quoi une sextape / sextortion ?</h3>
+                <p class="text-indigo-800 mt-2">C'est la diffusion ou la menace de diffusion d'images intimes sans ton consentement. Même si tu as envoyé la photo volontairement au début, *la partager sans ton accord est interdit*.</p>
+            </div>
+
+            <div class="space-y-4">
+                <h3 class="font-bold text-slate-700">Mythes vs Réalité</h3>
+                <div class="grid gap-4">
+                    <div class="bg-white border-l-4 border-red-400 p-4 shadow-sm">
+                        <p class="text-sm text-slate-500 uppercase font-bold">Mythe</p>
+                        <p class="font-medium text-slate-800">"Ma vie est finie, tout le monde va le voir."</p>
+                        <div class="mt-2 text-emerald-700 font-semibold text-sm flex gap-2">
+                            <i class="ph-bold ph-check-circle mt-1"></i>
+                            <span>Réalité : La plupart des gens ne verront jamais ces images. Les réseaux sociaux les bloquent très vite grâce à des technologies de "hachage" (empreinte numérique).</span>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white border-l-4 border-red-400 p-4 shadow-sm">
+                        <p class="text-sm text-slate-500 uppercase font-bold">Mythe</p>
+                        <p class="font-medium text-slate-800">"C'est ma faute, je n'aurais pas dû l'envoyer."</p>
+                        <div class="mt-2 text-emerald-700 font-semibold text-sm flex gap-2">
+                            <i class="ph-bold ph-check-circle mt-1"></i>
+                            <span>Réalité : La confiance n'est pas un crime. Celui qui trahit cette confiance est le seul coupable.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. DROITS (Focus Bénin/Afrique) -->
+        <section id="droits" class="page-section">
+            <h2 class="text-2xl font-bold text-slate-800 mb-6">Tes droits & La loi</h2>
+            
+            <div class="bg-slate-800 text-white p-6 rounded-xl shadow-lg mb-6">
+                <div class="flex items-start gap-4">
+                    <i class="ph-duotone ph-gavel text-4xl text-yellow-400"></i>
+                    <div>
+                        <h3 class="font-bold text-xl text-yellow-400">C'est puni par la loi</h3>
+                        <p class="mt-2 text-slate-300">Que ce soit au Bénin (Code du Numérique) ou ailleurs, la diffusion non consentie d'images intimes est un délit grave.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="space-y-4">
+                <div class="bg-white p-5 rounded-lg border shadow-sm">
+                    <h4 class="font-bold text-emerald-700">Le harcèlement numérique</h4>
+                    <p class="text-sm mt-1 text-slate-600">Le fait de menacer de diffuser une vidéo pour obtenir de l'argent ou des faveurs sexuelles est du chantage et de l'extorsion.</p>
+                </div>
+                
+                <div class="bg-white p-5 rounded-lg border shadow-sm">
+                    <h4 class="font-bold text-emerald-700">Atteinte à la vie privée</h4>
+                    <p class="text-sm mt-1 text-slate-600">Enregistrer ou transmettre l'image d'une personne dans un lieu privé sans son consentement est punissable de peines de prison et de fortes amendes.</p>
+                </div>
+
+                <div class="bg-amber-50 p-5 rounded-lg border border-amber-200">
+                    <h4 class="font-bold text-amber-800">Tu es mineur(e) ?</h4>
+                    <p class="text-sm mt-1 text-amber-900">La loi est encore plus stricte. C'est considéré comme de la pédopornographie, même si tu as pris la photo toi-même. La police prendra cela très au sérieux pour te protéger.</p>
+                </div>
+            </div>
+
+            <div class="mt-6">
+                <h3 class="font-bold text-slate-800 mb-2">Où porter plainte ?</h3>
+                <ul class="list-disc ml-5 text-slate-600 space-y-2">
+                    <li>Au commissariat le plus proche.</li>
+                    <li>À l'Office Central de Répression de la Cybercriminalité (OCRC) si tu es au Bénin.</li>
+                    <li>Fais-toi accompagner d'un adulte de confiance.</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 5. SUPPRESSION -->
+        <section id="suppression" class="page-section">
+            <h2 class="text-2xl font-bold text-slate-800 mb-6">Supprimer la vidéo</h2>
+            <p class="text-slate-600 mb-6">Voici les guides pas-à-pas pour signaler le contenu sur les principales plateformes.</p>
+
+            <!-- Accordéons -->
+            <div class="space-y-3">
+                <!-- Facebook -->
+                <div class="bg-white rounded-lg border shadow-sm overflow-hidden" onclick="toggleAccordion(this)">
+                    <div class="p-4 flex justify-between items-center cursor-pointer bg-slate-50">
+                        <span class="font-bold text-blue-700 flex items-center gap-2"><i class="ph-bold ph-facebook-logo"></i> Facebook / Messenger</span>
+                        <i class="ph-bold ph-caret-down accordion-icon"></i>
+                    </div>
+                    <div class="accordion-content bg-white px-4">
+                        <div class="py-4 text-sm text-slate-600">
+                            1. Clique sur les "..." en haut à droite de la publication.<br>
+                            2. Sélectionne "Trouver de l'aide ou signaler la publication".<br>
+                            3. Choisis "Nudité" ou "Harcèlement".<br>
+                            4. Suis les instructions. Si c'est sur Messenger, appuie longuement sur le message > Plus > Signaler.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Instagram -->
+                <div class="bg-white rounded-lg border shadow-sm overflow-hidden" onclick="toggleAccordion(this)">
+                    <div class="p-4 flex justify-between items-center cursor-pointer bg-slate-50">
+                        <span class="font-bold text-pink-700 flex items-center gap-2"><i class="ph-bold ph-instagram-logo"></i> Instagram</span>
+                        <i class="ph-bold ph-caret-down accordion-icon"></i>
+                    </div>
+                    <div class="accordion-content bg-white px-4">
+                        <div class="py-4 text-sm text-slate-600">
+                            1. Appuie sur les "..." au-dessus de la publication (ou en haut du profil).<br>
+                            2. "Signaler".<br>
+                            3. "C'est inapproprié" > "Nudité ou actes sexuels".<br>
+                            4. Pour les messages privés (DM) : Appuie longuement sur le message > Signaler.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- WhatsApp -->
+                <div class="bg-white rounded-lg border shadow-sm overflow-hidden" onclick="toggleAccordion(this)">
+                    <div class="p-4 flex justify-between items-center cursor-pointer bg-slate-50">
+                        <span class="font-bold text-green-600 flex items-center gap-2"><i class="ph-bold ph-whatsapp-logo"></i> WhatsApp</span>
+                        <i class="ph-bold ph-caret-down accordion-icon"></i>
+                    </div>
+                    <div class="accordion-content bg-white px-4">
+                        <div class="py-4 text-sm text-slate-600">
+                            WhatsApp est chiffré, mais tu peux signaler un contact.<br>
+                            1. Ouvre la discussion.<br>
+                            2. Touche le nom du contact en haut.<br>
+                            3. Fais défiler tout en bas > "Signaler le contact".<br>
+                            IMPORTANT : Bloque le contact immédiatement après.
+                        </div>
+                    </div>
+                </div>
+                 <!-- StopNCII -->
+                 <div class="bg-white rounded-lg border shadow-sm overflow-hidden" onclick="toggleAccordion(this)">
+                    <div class="p-4 flex justify-between items-center cursor-pointer bg-slate-50">
+                        <span class="font-bold text-slate-800 flex items-center gap-2"><i class="ph-bold ph-shield-check"></i> Outil Global (StopNCII)</span>
+                        <i class="ph-bold ph-caret-down accordion-icon"></i>
+                    </div>
+                    <div class="accordion-content bg-white px-4">
+                        <div class="py-4 text-sm text-slate-600">
+                            <p class="mb-2">StopNCII.org est un outil gratuit qui crée une "empreinte numérique" de tes photos/vidéos sans jamais les envoyer sur internet.</p>
+                            <a href="https://stopncii.org/" target="_blank" class="text-blue-600 underline font-bold">Visiter StopNCII.org</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. SOUTIEN -->
+        <section id="soutien" class="page-section">
+            <h2 class="text-2xl font-bold text-emerald-700 mb-6">Soutien Moral</h2>
+            
+            <div id="encouragement-box" class="bg-gradient-to-r from-emerald-500 to-teal-600 text-white p-8 rounded-xl text-center shadow-lg mb-8 relative overflow-hidden">
+                <i class="ph-fill ph-quotes text-6xl text-white opacity-20 absolute top-2 left-2"></i>
+                <p id="quote-text" class="text-xl font-medium relative z-10 italic">"Ce moment difficile ne définit pas qui tu es. Ton futur est toujours brillant."</p>
+                <button onclick="newQuote()" class="mt-4 bg-white/20 hover:bg-white/30 text-white text-sm px-4 py-2 rounded-full backdrop-blur-sm transition">Autre message</button>
+            </div>
+
+            <h3 class="font-bold text-slate-800 mb-4">Témoignages (Anonymes)</h3>
+            <div class="grid md:grid-cols-2 gap-4">
+                <div class="bg-white p-5 rounded-lg shadow-sm border">
+                    <p class="text-slate-600 text-sm">"J'ai cru que ma vie était finie quand mon ex a menacé de tout poster. J'ai prévenu mes parents et la police. Il a eu peur et a tout effacé. Aujourd'hui, je vais bien."</p>
+                    <p class="mt-2 font-bold text-slate-400 text-xs">— A., 19 ans</p>
+                </div>
+                <div class="bg-white p-5 rounded-lg shadow-sm border">
+                    <p class="text-slate-600 text-sm">"Le plus dur c'était la honte. Mais en parlant à une asso, j'ai compris que j'étais la victime, pas le coupable. Ne restez pas seuls."</p>
+                    <p class="mt-2 font-bold text-slate-400 text-xs">— K., 22 ans</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 7. PARLER -->
+        <section id="parler" class="page-section">
+            <h2 class="text-2xl font-bold text-slate-800 mb-6">Rompre le silence</h2>
+            
+            <p class="mb-6 text-slate-600">Dire "j'ai besoin d'aide" est l'acte le plus courageux que tu puisses faire. Voici comment t'y prendre.</p>
+
+            <div class="bg-white p-6 rounded-xl shadow-sm border mb-6">
+                <h3 class="font-bold text-lg mb-3">Modèle de message</h3>
+                <p class="text-sm text-slate-500 mb-3">Tu ne sais pas quoi dire à un ami ou un parent ? Copie ce message :</p>
+                
+                <div class="bg-slate-100 p-4 rounded-lg relative">
+                    <p id="message-script" class="text-slate-700 italic font-medium">"Salut, j'ai un gros problème et j'ai vraiment peur. Quelqu'un me menace avec des images privées. J'ai besoin de ton aide, s'il te plaît ne me juge pas."</p>
+                    <button onclick="copyText()" class="absolute top-2 right-2 text-slate-400 hover:text-emerald-600" title="Copier le texte">
+                        <i class="ph-bold ph-copy text-xl"></i>
+                    </button>
+                </div>
+                <p id="copy-confirm" class="text-emerald-600 text-xs mt-2 hidden">Texte copié !</p>
+            </div>
+
+            <div class="bg-blue-50 p-5 rounded-lg">
+                <h3 class="font-bold text-blue-900 mb-2">À qui parler ?</h3>
+                <ul class="space-y-2 text-blue-800">
+                    <li class="flex items-center gap-2"><i class="ph-fill ph-check-circle"></i> Un parent ou un membre de la famille</li>
+                    <li class="flex items-center gap-2"><i class="ph-fill ph-check-circle"></i> Un ami proche de confiance</li>
+                    <li class="flex items-center gap-2"><i class="ph-fill ph-check-circle"></i> Le psychologue scolaire ou un professeur</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 8. PREVENTION -->
+        <section id="prevention" class="page-section">
+            <h2 class="text-2xl font-bold text-slate-800 mb-6">Prévention & Hygiène Numérique</h2>
+            
+            <div class="grid gap-4">
+                <div class="bg-white p-5 border-l-4 border-emerald-500 shadow-sm rounded-r-lg">
+                    <h3 class="font-bold text-lg">Sécurise tes comptes</h3>
+                    <p class="text-slate-600 text-sm mt-1">Active la "Double Authentification" (2FA) sur Instagram, Snapchat et Google. Cela empêche quiconque de pirater ton compte pour voler tes photos.</p>
+                </div>
+
+                <div class="bg-white p-5 border-l-4 border-emerald-500 shadow-sm rounded-r-lg">
+                    <h3 class="font-bold text-lg">Visages & Signes distinctifs</h3>
+                    <p class="text-slate-600 text-sm mt-1">Si tu décides d'envoyer des photos intimes, évite de montrer ton visage, tes tatouages ou le décor de ta chambre. Cela rend l'identification plus difficile.</p>
+                </div>
+
+                <div class="bg-white p-5 border-l-4 border-red-500 shadow-sm rounded-r-lg">
+                    <h3 class="font-bold text-lg">Le respect du consentement</h3>
+                    <p class="text-slate-600 text-sm mt-1">Recevoir une photo ne te donne PAS le droit de la montrer, de l'enregistrer ou de la partager. Jamais. Le consentement est révocable à tout moment.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 9. RESSOURCES -->
+        <section id="ressources" class="page-section">
+            <h2 class="text-2xl font-bold text-slate-800 mb-6">Ressources Utiles</h2>
+            <div class="space-y-4">
+                <a href="https://stopncii.org/" target="_blank" class="block bg-white p-6 rounded-xl shadow-sm border hover:shadow-md transition group">
+                    <h3 class="font-bold text-lg text-emerald-700 group-hover:underline">StopNCII.org ↗</h3>
+                    <p class="text-slate-600">L'outil mondial gratuit pour empêcher la diffusion de tes photos intimes sur Facebook, Instagram, TikTok et Bumble.</p>
+                </a>
+                
+                <a href="https://www.cybermalveillance.gouv.fr/" target="_blank" class="block bg-white p-6 rounded-xl shadow-sm border hover:shadow-md transition group">
+                    <h3 class="font-bold text-lg text-blue-700 group-hover:underline">Cybermalveillance (Infos Générales) ↗</h3>
+                    <p class="text-slate-600">Conseils de sécurité numérique et fiches pratiques.</p>
+                </a>
+
+                <div class="bg-slate-100 p-6 rounded-xl text-center">
+                    <p class="font-bold text-slate-700">Numéros d'urgence locaux</p>
+                    <p class="text-slate-500 text-sm mb-4">Adapte cette section selon ton pays</p>
+                    <div class="flex justify-center gap-4 text-xl font-mono font-bold text-slate-800">
+                        <span>Police: 117</span>
+                        <span>|</span>
+                        <span>Pompiers: 118</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 10. A PROPOS -->
+        <section id="apropos" class="page-section">
+            <h2 class="text-2xl font-bold text-slate-800 mb-6">À propos de ce site</h2>
+            <div class="bg-white p-8 rounded-xl shadow-sm border">
+                <h3 class="font-bold text-lg mb-2">Notre Mission</h3>
+                <p class="text-slate-600 mb-4">Ce site a été créé pour offrir une aide immédiate, gratuite et anonyme aux jeunes victimes de violences numériques.</p>
+                
+                <h3 class="font-bold text-lg mb-2">Avertissement Légal</h3>
+                <p class="text-slate-600 text-sm mb-4">
+                    Les informations contenues sur ce site sont à titre éducatif et informatif. Elles ne remplacent pas un avis juridique professionnel ou une consultation psychologique. En cas de danger immédiat, contacte la police.
+                </p>
+
+                <div class="border-t pt-4 mt-4 flex flex-col gap-2 text-sm text-slate-400">
+                    <p>Respect de la vie privée : Nous n'utilisons aucun cookie de traçage.</p>
+                    <p>Conçu avec ❤ pour la protection de tous.</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-white border-t py-6 mt-8">
+        <div class="max-w-4xl mx-auto px-4 text-center text-slate-400 text-sm">
+            <p>&copy; 2024 Espace Soutien & Sécurité. Anonyme et gratuit.</p>
+            <div class="flex justify-center gap-4 mt-2">
+                <button onclick="navigateTo('apropos')" class="hover:text-emerald-600">À propos</button>
+                <button onclick="navigateTo('ressources')" class="hover:text-emerald-600">Ressources</button>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // --- Navigation ---
+        function navigateTo(pageId) {
+            // Masquer toutes les sections
+            document.querySelectorAll('.page-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            // Afficher la section cible
+            document.getElementById(pageId).classList.add('active');
+            // Remonter en haut de page
+            window.scrollTo(0, 0);
+        }
+
+        // --- Menu Mobile ---
+        function toggleMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        // --- Accordéons ---
+        function toggleAccordion(element) {
+            element.classList.toggle('accordion-open');
+        }
+
+        // --- Copier le texte ---
+        function copyText() {
+            const text = document.getElementById('message-script').innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                const confirmMsg = document.getElementById('copy-confirm');
+                confirmMsg.classList.remove('hidden');
+                setTimeout(() => confirmMsg.classList.add('hidden'), 2000);
+            });
+        }
+
+        // --- Citations aléatoires ---
+        const quotes = [
+            "Ce moment difficile ne définit pas qui tu es. Ton futur est toujours brillant.",
+            "Tu es plus fort(e) que tu ne le crois. Ça va aller.",
+            "La honte doit changer de camp. Tu n'as rien fait de mal.",
+            "Respire. Une étape à la fois.",
+            "Tu n'es pas seul(e). Il y a des solutions."
+        ];
+
+        function newQuote() {
+            const quoteText = document.getElementById('quote-text');
+            const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+            // Petit effet de fondu
+            quoteText.style.opacity = 0;
+            setTimeout(() => {
+                quoteText.innerText = "${randomQuote}";
+                quoteText.style.opacity = 1;
+            }, 200);
+        }
+    </script>
+</body>
+</html>
