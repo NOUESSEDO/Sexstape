@@ -1,3 +1,0 @@
-User-agent: *
-Allow: /
-​Sitemap: https://www.google.com/search?q=https://nouessedo.github.io/Sexstape/sitemap.xml
